@@ -52,7 +52,7 @@ for index, row in deaths_main.iterrows():
     result = tests[(tests['geo_value'] == row.geo_value) & (tests['time_value'] == (row.time_value - timedelta(days=7)))]
     if len(result) > 0:
         try:
-            testing_column.append(result.iloc[0].percent_covid_tests_positive_smoothed)
+            testing_column.append(result.iloc[0].percent_covid_tests_positive)
         except:
             print(result)
     else:

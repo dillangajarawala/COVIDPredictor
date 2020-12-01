@@ -8,7 +8,7 @@ from pickle import dump
 
 df = pd.read_csv("casesmainwithdateoffsets.csv")
 
-features_num = ["percent_covid_tests_positive_smoothed", "covid_admissions", "full_time_work_prop", "percent_covid_visits", "fb_illness", "percent_home"]
+features_num = ["percent_covid_tests_positive", "covid_admissions", "full_time_work_prop", "percent_covid_visits", "fb_illness", "percent_home"]
 features_cat = ["geo_value"]
 
 X_cat = df[features_cat]
