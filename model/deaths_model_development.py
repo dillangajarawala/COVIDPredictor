@@ -15,17 +15,17 @@ df["geo_value"] = df["geo_value"].map(lambda x: pop_hash[x])
 features_num = ["new_cases"]
 features_scale = ["geo_value", "percent_covid_tests_positive", "covid_admissions", "full_time_work_prop", "percent_covid_visits", "fb_illness", "percent_home"]
 
-X_cat = df[features_scale]
+X_scale = df[features_scale]
 X_num = df[features_num]
 
 scaler = preprocessing.MinMaxScaler()
-scaler.fit(X_cat)
-scaled = scaler.transform(X_cat)
+scaler.fit(X_scale)
+scaled = scaler.transform(X_scale)
 print(scaled)
-X_cat_proc = pd.DataFrame(scaled.tolist(), columns=["population", "percent_covid_tests_positive", "covid_admissions", "full_time_work_prop", "percent_covid_visits", "fb_illness", "percent_home"])
+X_scaled_proc = pd.DataFrame(scaled.tolist(), columns=["population", "percent_covid_tests_positive", "covid_admissions", "full_time_work_prop", "percent_covid_visits", "fb_illness", "percent_home"])
 
 # merge features
-X = pd.concat([X_cat_proc, X_num], axis=1, sort=False)
+X = pd.concat([X_scaled_proc, X_num], axis=1, sort=False)
 X.head()
 
 y = df["new_deaths"]
