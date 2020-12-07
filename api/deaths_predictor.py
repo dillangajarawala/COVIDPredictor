@@ -17,7 +17,7 @@ class DeathsPredictor(object):
         x = self.scaler.transform([features_to_be_scaled]).toarray()[0]
         return x
     
-    def predict_cases(self, cases, features_to_be_scaled, state):
+    def predict_deaths(self, cases, features_to_be_scaled, state):
         state_population = self.get_state_population(state)
         scaled_features = self.scale_features([state_population] + features_to_be_scaled)
         features = scaled_features + cases
