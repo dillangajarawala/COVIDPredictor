@@ -5,8 +5,8 @@ from sklearn import preprocessing
 class CasesPredictor(object):
 
     def __init__(self):
-        self.model = load(open("./../model/casesmodel.pkl", 'rb'))
-        self.encoder = load(open("./../model/casesenc.pkl"), 'rb')
+        self.model = load(open("./model/casesmodel.pkl", 'rb'))
+        self.encoder = load(open("./model/casesenc.pkl", 'rb'))
     
     def get_encoded_categorical(self, categorical):
         x = self.encoder.transform([categorical]).toarray()[0]

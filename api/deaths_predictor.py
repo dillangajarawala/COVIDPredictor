@@ -7,8 +7,8 @@ pop_hash = {'al': 4903185, 'ak': 731545, 'as': 55312, 'az': 7278717, 'ar': 30178
 class DeathsPredictor(object):
 
     def __init__(self):
-        self.model = load(open("./../model/deathsmodel.pkl", 'rb'))
-        self.scaler = load(open("./../model/deathsscaler.pkl"), 'rb')
+        self.model = load(open("./model/deathsmodel.pkl", 'rb'))
+        self.scaler = load(open("./model/deathsscaler.pkl", 'rb'))
     
     def get_state_population(state):
         return pop_hash[state]
