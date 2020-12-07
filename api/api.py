@@ -13,11 +13,19 @@ deaths_predictor = DeathsPredictor()
 def home():
     return render_template("home")
 
-@app.route('/predictcases', methods=["GET", "POST"])
+@app.route('/predictcasesform', methods=['GET'])
+def predict_cases_form():
+    return render_template('predict_cases_form')
+
+@app.route('/predictcases', methods=["GET"])
 def predict_cases():
     return render_template("predict_cases")
 
-@app.route('/predictdeaths', methods=["GET", "POST"])
+@app.route('/predictdeathsform', methods=["GET"])
+def predict_deaths_form():
+    return render_template('predict_deaths_form')
+
+@app.route('/predictdeaths', methods=["GET"])
 def predict_deaths():
     return render_template("predict_deaths")
 
