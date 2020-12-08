@@ -22,6 +22,6 @@ class DeathsPredictor(object):
         scaled_features = self.scale_features([state_population] + features_to_be_scaled)
         features = scaled_features + cases
         deaths = self.model.predict([features])[0]
-        return deaths
+        return int(deaths)
     
 

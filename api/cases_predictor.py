@@ -14,8 +14,8 @@ class CasesPredictor(object):
     
     def predict_cases(self, categorical_vars, numerical_vars):
         encoded = self.get_encoded_categorical(categorical_vars)
-        features = encoded + numerical_vars
+        features = list(encoded) + numerical_vars
         cases = self.model.predict([features])[0]
-        return cases
+        return int(cases)
     
 
