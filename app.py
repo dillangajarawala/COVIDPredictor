@@ -68,11 +68,11 @@ def predict_cases():
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
         cases = cases_predictor.predict_cases(state, numerical_vars)
-        print(cases)
+        return render_template('predicted_cases.html', cases=cases, state=geo_value, positive_pct= tests_positive, admissions=admissions, full_time=full_time, home=home, fb=fb_illness, visits=visits)
 
 @app.route('/predictdeathsform', methods=["GET"])
 def predict_deaths_form():
-    return render_template('predict_deaths_form.html')
+    return render_template('predict_deaths_form.html', states=states)
 
 @app.route('/predictdeaths', methods=["GET"])
 def predict_deaths():
@@ -114,7 +114,7 @@ def predict_deaths():
         flash("You must enter the percentage of mobile devices that did not leave the immediate area of their home 2 weeks ago", 'danger')
         error = True
     if error:
-        return render_template("predict_deaths_form.html")
+        return render_template("predict_deaths_form.html", states=states)
     else:
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]

@@ -73,6 +73,12 @@ input[type="number"] {
     margin-left: auto;
 }
 
+.col select {
+    width: 20%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .alert {
     margin-right: auto;
     margin-left: auto;
