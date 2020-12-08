@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<h2 class="display-2 text-center text-white-50">CoronaCast</h2>
+<div class="text-center" id="content">
+    <p>
+        A simple yet interpretable system for predicting daily COVID cases and deaths for US states. 
+    </p>
+    <div id="buttons">
+        <a href="/predictcasesform"><button type="button" class="btn home-button btn-lg">Predict Cases</button></a>
+        <a href="/predictdeathsform"><button type="button" class="btn home-button btn-lg">Predict Deaths</button></a>
+    </div>
+</div>
+
+{% endblock %}
