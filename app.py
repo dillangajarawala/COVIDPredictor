@@ -26,7 +26,7 @@ def home():
 
 @app.route('/predictcasesform', methods=['GET'])
 def predict_cases_form():
-    return render_template('predict_cases_form.html', states=states)
+    return render_template('predict_cases.html', states=states)
 
 @app.route('/predictcases', methods=["GET"])
 def predict_cases():
@@ -68,11 +68,11 @@ def predict_cases():
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
         cases = cases_predictor.predict_cases(state, numerical_vars)
-        return render_template('predicted_cases.html', cases=cases, state=geo_value, positive_pct= tests_positive, admissions=admissions, full_time=full_time, home=home, fb=fb_illness, visits=visits)
+        return render_template('predict_cases.html', states=states, cases=cases, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 @app.route('/predictdeathsform', methods=["GET"])
 def predict_deaths_form():
-    return render_template('predict_deaths_form.html', states=states)
+    return render_template('predict_deaths.html', states=states)
 
 @app.route('/predictdeaths', methods=["GET"])
 def predict_deaths():
@@ -119,7 +119,7 @@ def predict_deaths():
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]
         deaths = deaths_predictor.predict_deaths(cases, features_to_scale, state)
-        return render_template("predicted_deaths.html")
+        return render_template("predict_deaths.html" cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Predict Deaths
+{% endblock %}
+
+{% block main %}
+<h2 class="display-2 text-center text-white-50">Predict Deaths</h2>
+<div id="form">
+    <form method="GET", action="/predictdeaths">
+        <div class="row">
+            <div class="col">
+                <label for="geo_value">US State or Territory</label>
+                {% if state %}
+                <select name="geo_value" class="form-control">
+                    {% for s in states %}
+                        {% if s == state %}
+                        <option value="{{state}}" selected>{{state}}</option>
+                        {% else %}
+                        <option value="{{state}}" >{{state}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% else %}
+                <select name="geo_value" class="form-control">
+                    <option value="{{states[0]}}" selected>{{states[0]}}</option>
+                    {% for state in states[1:] %}
+                    <option value="{{state}}">{{state}}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+            </div>
+            <div class="col">
+                <label for="cases">Positive COVID Cases</label>
+                {% if cases %}
+                <input name="cases" type="number" class="form-control" value="{{ cases }}">
+                {% else %}
+                <input name="cases" type="number" class="form-control" placeholder="0">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="tests_positive">Percentage of Positive COVID Tests</label>
+                {% if tests_positive %}
+                <input name="tests_positive" type="number" class="form-control" value="{{ tests_positive }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="tests_positive" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+            <div class="col">
+                <label for="admissions">Percentage of COVID-related Hospital Visits</label>
+                {% if admissions %}
+                <input name="admissions" type="number" class="form-control" value="{{ admissions }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="admissions" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="full_time">Percentage of Mobile Devices Significantly away from Home</label>
+                {% if full_time %}
+                <input name="full_time" type="number" class="form-control" value="{{ full_time }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="full_time" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+            <div class="col">
+                <label for="home">Percentage of Mobile Devices fully at Home</label>
+                {% if home %}
+                <input name="home" type="number" class="form-control" value="{{ home }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="home" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="visits">Percentage of COVID-related Doctor's Visits</label>
+                {% if visits %}
+                <input name="visits" type="number" class="form-control" value="{{ visits }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="visits" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+            <div class="col">
+                <label for="fb_illness">Percentage of people with COVID according to Facebook</label>
+                {% if visits %}
+                <input name="fb_illness" type="number" class="form-control" value="{{ fb_illness }}" max="100" min="0" step="any">
+                {% else %}
+                <input name="fb_illness" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
+                {% endif %}
+            </div>
+        </div>
+        <div id="submit-button" class="text-center">
+            <button type="submit" class="btn main-button btn-lg">Predict Deaths</button>
+        </div>
+    </form>
+</div>
+<br><br>
+<div id="prediction">
+    {% if deaths %}
+    <h3>Predicted Deaths: {{ deaths }}</h3>
+    {% endif %}
+    {% if explanation %}
+    <p>{{ explanation }}</p>
+    {% endif %}
+</div>
+{% endblock %}

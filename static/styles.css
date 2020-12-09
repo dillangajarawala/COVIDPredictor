@@ -94,3 +94,7 @@ main {
     background-color: inherit;
     border: none;
 }
+
+#prediction {
+    text-align: center;
+}
