@@ -63,7 +63,7 @@ def predict_cases():
         flash("You must enter the percentage of mobile devices that did not leave the immediate area of their home 2 weeks ago", 'danger')
         error = True
     if error:
-        return render_template("predict_cases_form.html", states=states)
+        return render_template("predict_cases.html", states=states)
     else:
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
@@ -114,12 +114,12 @@ def predict_deaths():
         flash("You must enter the percentage of mobile devices that did not leave the immediate area of their home 2 weeks ago", 'danger')
         error = True
     if error:
-        return render_template("predict_deaths_form.html", states=states)
+        return render_template("predict_deaths.html", states=states)
     else:
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]
         deaths = deaths_predictor.predict_deaths(cases, features_to_scale, state)
-        return render_template("predict_deaths.html" cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
+        return render_template("predict_deaths.html", cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 if __name__ == "__main__":
     app.run()

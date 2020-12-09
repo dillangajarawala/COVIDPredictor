@@ -29,6 +29,7 @@
                     {% endfor %}
                 </select>
                 {% endif %}
+                <small class="form-text text-white">The US State or Territory you are predicting deaths for.</small>
             </div>
             <div class="col">
                 <label for="cases">Positive COVID Cases</label>
@@ -37,6 +38,7 @@
                 {% else %}
                 <input name="cases" type="number" class="form-control" placeholder="0">
                 {% endif %}
+                <small class="form-text text-white">The estimated number of cases in the state or territory 1 week before the day you are predicting deaths for.</small>
             </div>
         </div>
         <div class="row">
@@ -47,6 +49,7 @@
                 {% else %}
                 <input name="tests_positive" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The percentage of positive COVID tests in the state or territory 1 week before the day you are predicting deaths for.</small>
             </div>
             <div class="col">
                 <label for="admissions">Percentage of COVID-related Hospital Visits</label>
@@ -55,6 +58,7 @@
                 {% else %}
                 <input name="admissions" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The percentage of COVID-related hospital visits in the state or territory 1 week before the day you are predicting deaths for.</small>
             </div>
         </div>
         <div class="row">
@@ -65,6 +69,7 @@
                 {% else %}
                 <input name="full_time" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The percentage of mobile devices that spent more than 6 hours at a location other than their home during the daytime in the state or territory 2 weeks before the day you are predicting deaths for.</small>
             </div>
             <div class="col">
                 <label for="home">Percentage of Mobile Devices fully at Home</label>
@@ -73,6 +78,7 @@
                 {% else %}
                 <input name="home" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The percentage of mobile devices that did not leave the immediate area of their home in the state or territory 2 weeks before the day you are predicting deaths for.</small>
             </div>
         </div>
         <div class="row">
@@ -83,6 +89,7 @@
                 {% else %}
                 <input name="visits" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The estimated percentage of outpatient doctor visits primarily about COVID-related symptoms in the state or territory 1 week before the day you are predicting deaths for.</small>
             </div>
             <div class="col">
                 <label for="fb_illness">Percentage of people with COVID according to Facebook</label>
@@ -91,6 +98,7 @@
                 {% else %}
                 <input name="fb_illness" type="number" class="form-control" placeholder="0" max="100" min="0" step="any">
                 {% endif %}
+                <small class="form-text text-white">The estimated percentage of people with COVID-like illness according to a limited Facebook survey in the state or territory 1 week before the day you are predicting deaths for.</small>
             </div>
         </div>
         <div id="submit-button" class="text-center">
