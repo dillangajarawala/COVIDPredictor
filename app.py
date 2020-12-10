@@ -123,8 +123,12 @@ def predict_deaths():
     else:
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        deaths = deaths_predictor.predict_deaths(cases, features_to_scale, state)
-        return render_template("predict_deaths.html", cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
+        deaths, weights = deaths_predictor.predict_deaths(cases, features_to_scale, state)
+        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Baseline", "Cases"]
+        combined = list(zip(labels, weights))
+        combined.sort(key = lambda x: x[1])
+        labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]
+        return render_template("predict_deaths.html", labels=json.dumps(labels), weights=json.dumps(weights), cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 if __name__ == "__main__":
     app.run()

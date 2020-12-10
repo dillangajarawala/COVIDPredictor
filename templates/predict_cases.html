@@ -107,10 +107,10 @@
     <p>{{ explanation }}</p>
     {% endif %}
     <div class="graph_container">
-        <canvas id="Chart1"></canvas>
+        <canvas id="Chart"></canvas>
     </div>
     {% if weights and labels %}
-    <script>createChart({{ weights|safe }}, {{ labels|safe }})</script>
+    <script>createCasesChart({{ weights|safe }}, {{ labels|safe }})</script>
     {% endif %}
 </div>
 {% endblock %}

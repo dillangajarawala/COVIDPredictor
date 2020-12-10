@@ -10,18 +10,23 @@ class DeathsPredictor(object):
         self.model = load(open("./model/deathsmodel.pkl", 'rb'))
         self.scaler = load(open("./model/deathsscaler.pkl", 'rb'))
     
-    def get_state_population(state):
+    def get_state_population(self, state):
         return pop_hash[state]
     
     def scale_features(self, features_to_be_scaled):
-        x = self.scaler.transform([features_to_be_scaled]).toarray()[0]
+        x = self.scaler.transform([features_to_be_scaled]).tolist()[0]
         return x
     
     def predict_deaths(self, cases, features_to_be_scaled, state):
         state_population = self.get_state_population(state)
         scaled_features = self.scale_features([state_population] + features_to_be_scaled)
-        features = scaled_features + cases
+        features = list(scaled_features) + [cases]
+        all_weights = [i*x for i, x in zip(features, self.model.coef_)]
+        weights = all_weights + [self.model.intercept_]
+        weights = [int(x) for x in weights]
         deaths = self.model.predict([features])[0]
-        return int(deaths)
+        print(self.model.coef_)
+        print(features)
+        return int(deaths), weights
     
 

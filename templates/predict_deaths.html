@@ -114,5 +114,11 @@
     {% if explanation %}
     <p>{{ explanation }}</p>
     {% endif %}
+    <div class="graph_container">
+        <canvas id="Chart"></canvas>
+    </div>
+    {% if weights and labels %}
+    <script>createDeathsChart({{ weights|safe }}, {{ labels|safe }})</script>
+    {% endif %}
 </div>
 {% endblock %}
