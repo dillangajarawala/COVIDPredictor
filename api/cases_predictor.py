@@ -15,7 +15,10 @@ class CasesPredictor(object):
     def predict_cases(self, categorical_vars, numerical_vars):
         encoded = self.get_encoded_categorical(categorical_vars)
         features = list(encoded) + numerical_vars
+        all_weights = [i*x for i, x in zip(features, self.model.coef_)]
+        weights = [sum(all_weights[:50])] + all_weights[50:] + [self.model.intercept_]
+        weights = [int(x) for x in weights]
         cases = self.model.predict([features])[0]
-        return int(cases)
+        return int(cases), weights
     
 

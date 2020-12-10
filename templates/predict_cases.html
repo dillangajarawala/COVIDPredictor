@@ -17,9 +17,9 @@
             <select name="geo_value" class="form-control">
                 {% for s in states %}
                     {% if s == state %}
-                    <option value="{{state}}" selected>{{state}}</option>
+                    <option value="{{s}}" selected>{{s}}</option>
                     {% else %}
-                    <option value="{{state}}" >{{state}}</option>
+                    <option value="{{s}}" >{{s}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -105,6 +105,12 @@
     {% endif %}
     {% if explanation %}
     <p>{{ explanation }}</p>
+    {% endif %}
+    <div class="graph_container">
+        <canvas id="Chart1"></canvas>
+    </div>
+    {% if weights and labels %}
+    <script>createChart({{ weights|safe }}, {{ labels|safe }})</script>
     {% endif %}
 </div>
 {% endblock %}

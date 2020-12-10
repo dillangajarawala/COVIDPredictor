@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, flash
 from api.cases_predictor import CasesPredictor
 from api.deaths_predictor import DeathsPredictor
+import json
 
 app = Flask(__name__)
 app.config.update(DEBUG=True, TEMPLATES_AUTO_RELOAD=True)
@@ -67,8 +68,12 @@ def predict_cases():
     else:
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        cases = cases_predictor.predict_cases(state, numerical_vars)
-        return render_template('predict_cases.html', states=states, cases=cases, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
+        cases, weights = cases_predictor.predict_cases(state, numerical_vars)
+        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Baseline"]
+        combined = list(zip(labels, weights))
+        combined.sort(key = lambda x: x[1])
+        labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]
+        return render_template('predict_cases.html', labels=json.dumps(labels), weights=json.dumps(weights), states=states, cases=cases, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 @app.route('/predictdeathsform', methods=["GET"])
 def predict_deaths_form():
