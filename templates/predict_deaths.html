@@ -15,9 +15,9 @@
                 <select name="geo_value" class="form-control">
                     {% for s in states %}
                         {% if s == state %}
-                        <option value="{{state}}" selected>{{state}}</option>
+                        <option value="{{s}}" selected>{{s}}</option>
                         {% else %}
-                        <option value="{{state}}" >{{state}}</option>
+                        <option value="{{s}}" >{{s}}</option>
                         {% endif %}
                     {% endfor %}
                 </select>

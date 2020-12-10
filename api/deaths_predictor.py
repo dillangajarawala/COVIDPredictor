@@ -25,8 +25,23 @@ class DeathsPredictor(object):
         weights = all_weights + [self.model.intercept_]
         weights = [int(x) for x in weights]
         deaths = self.model.predict([features])[0]
-        print(self.model.coef_)
-        print(features)
-        return int(deaths), weights
+        print("DEATHS")
+        print(self.model.coef_, self.model.intercept_)
+        explanation = self.get_explanation(state)
+        return int(deaths), weights, explanation
+    
+    def get_explanation(self, state):
+        explanation = "All estimates start with a baseline value. The parameters you entered will increase or decrease the death count until all of them have been accounted for. "
+        if pop_hash[state] > sum(pop_hash.values())/len(pop_hash):
+            explanation += "The state you chose had a population higher than the average, so it contributed more to the death count. "
+        else:
+            explanation += "The state you chose had a population lower than the average, so it contributed less to the death count. "
+        explanation += "Positive tests have an extremely association with COVID deaths, so the value you entered had no effect on the death count. "
+        explanation += "Hospital admissions have an extremely positive association with COVID deaths, so the value you entered caused the death count to rise. "
+        explanation += "Devices away from home have a positive association with COVID deaths, so the value you entered caused the death count to rise. "
+        explanation += "Doctor's visits have a negative association with COVID deaths, so the value you entered caused the death count to decrease. "
+        explanation += "Any reporting of COVID-like illness via the Facebook survey has been linked with a decrease in deaths, so the value you entered caused the death count to go down. "
+        explanation += "Devices at home have a negative association with COVID deaths, so the value you entered caused the death count to go down. "
+        return explanation
     
 

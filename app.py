@@ -68,12 +68,14 @@ def predict_cases():
     else:
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        cases, weights = cases_predictor.predict_cases(state, numerical_vars)
+        cases, weights, explanation = cases_predictor.predict_cases(state, numerical_vars)
+        if cases < 0: cases = "Zero"
         labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Baseline"]
+        print(labels)
         combined = list(zip(labels, weights))
         combined.sort(key = lambda x: x[1])
         labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]
-        return render_template('predict_cases.html', labels=json.dumps(labels), weights=json.dumps(weights), states=states, cases=cases, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
+        return render_template('predict_cases.html', explanation=explanation, labels=json.dumps(labels), weights=json.dumps(weights), states=states, cases=cases, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 @app.route('/predictdeathsform', methods=["GET"])
 def predict_deaths_form():
@@ -123,12 +125,14 @@ def predict_deaths():
     else:
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        deaths, weights = deaths_predictor.predict_deaths(cases, features_to_scale, state)
-        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Baseline", "Cases"]
+        deaths, weights, explanation = deaths_predictor.predict_deaths(cases, features_to_scale, state)
+        if deaths < 0: deaths = "Zero"
+        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Cases", "Baseline"]
+        print(labels)
         combined = list(zip(labels, weights))
         combined.sort(key = lambda x: x[1])
         labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]
-        return render_template("predict_deaths.html", labels=json.dumps(labels), weights=json.dumps(weights), cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
+        return render_template("predict_deaths.html", explanation=explanation, labels=json.dumps(labels), weights=json.dumps(weights), cases=cases, states=states, deaths=deaths, state=geo_value, tests_positive= tests_positive, admissions=admissions, full_time=full_time, home=home, fb_illness=fb_illness, visits=visits)
 
 if __name__ == "__main__":
     app.run()
