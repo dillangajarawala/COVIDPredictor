@@ -25,23 +25,38 @@ class DeathsPredictor(object):
         weights = all_weights + [self.model.intercept_]
         weights = [int(x) for x in weights]
         deaths = self.model.predict([features])[0]
-        print("DEATHS")
-        print(self.model.coef_, self.model.intercept_)
-        explanation = self.get_explanation(state)
-        return int(deaths), weights, explanation
+        return int(deaths), weights
     
-    def get_explanation(self, state):
+    def get_explanation(self, state, cases, features_to_scale, feature_labels):
+        state_population = self.get_state_population(state)
+        scaled_features = self.scale_features([state_population] + features_to_scale)
+        feature_values = list(scaled_features)[1:] + [cases]
+        feature_weights = self.model.coef_[1:]
         explanation = "All estimates start with a baseline value. The parameters you entered will increase or decrease the death count until all of them have been accounted for. "
         if pop_hash[state] > sum(pop_hash.values())/len(pop_hash):
             explanation += "The state you chose had a population higher than the average, so it contributed more to the death count. "
         else:
             explanation += "The state you chose had a population lower than the average, so it contributed less to the death count. "
-        explanation += "Positive tests have an extremely association with COVID deaths, so the value you entered had no effect on the death count. "
-        explanation += "Hospital admissions have an extremely positive association with COVID deaths, so the value you entered caused the death count to rise. "
-        explanation += "Devices away from home have a positive association with COVID deaths, so the value you entered caused the death count to rise. "
-        explanation += "Doctor's visits have a negative association with COVID deaths, so the value you entered caused the death count to decrease. "
-        explanation += "Any reporting of COVID-like illness via the Facebook survey has been linked with a decrease in deaths, so the value you entered caused the death count to go down. "
-        explanation += "Devices at home have a negative association with COVID deaths, so the value you entered caused the death count to go down. "
+        
+        for i in range(len(feature_weights)):
+            sentence = ""
+            if feature_labels[i] == "Facebook Survey":
+                sentence += "Any reporting of COVID-like illness via the Facebook survey has"
+            else:
+                sentence += feature_labels[i] + " have "
+
+            if feature_weights[i] > 0:
+                sentence += "a positive association with COVID deaths, "
+            else:
+                sentence += "a negative association with COVID deaths, "
+
+            if int(feature_values[i]*feature_weights[i]) == 0:
+                sentence += "but the value you entered is not large enough to change the death count. "
+            elif int(feature_values[i]*feature_weights[i]) > 0:
+                sentence += "so the value you entered caused the death count to rise. "
+            else:
+                sentence += "so the value you entered caused the death count to drop. "
+            explanation += sentence
         return explanation
     
 

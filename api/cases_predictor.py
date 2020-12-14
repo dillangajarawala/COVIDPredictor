@@ -25,7 +25,6 @@ class CasesPredictor(object):
     
     def get_explanation(self, state, feature_values, feature_labels):
         feature_weights = self.model.coef_[50:]
-        print(feature_weights)
         explanation = "All estimates start with a baseline value. The parameters you entered will increase or decrease the case count until all of them have been accounted for. "
         if pop_hash[state] > sum(pop_hash.values())/len(pop_hash):
             explanation += "The state you chose had a population higher than the average, so it contributed more to the case count. "

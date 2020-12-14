@@ -125,10 +125,10 @@ def predict_deaths():
     else:
         state = geo_value.lower()
         features_to_scale = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        deaths, weights, explanation = deaths_predictor.predict_deaths(cases, features_to_scale, state)
+        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "COVID Cases", "Baseline"]
+        deaths, weights = deaths_predictor.predict_deaths(cases, features_to_scale, state)
+        explanation = deaths_predictor.get_explanation(geo_value.lower(), cases, features_to_scale, labels[1:-1])
         if deaths < 0: deaths = "Zero"
-        labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Cases", "Baseline"]
-        print(labels)
         combined = list(zip(labels, weights))
         combined.sort(key = lambda x: x[1])
         labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]
