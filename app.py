@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template, flash
-from api.cases_predictor import CasesPredictor
-from api.deaths_predictor import DeathsPredictor
+from predictors.cases_predictor import CasesPredictor
+from predictors.deaths_predictor import DeathsPredictor
 import json
 
 app = Flask(__name__)
