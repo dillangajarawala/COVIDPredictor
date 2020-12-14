@@ -1,7 +1,7 @@
 # CoronaCast
 A web application that aims to predict COVID-19 cases and deaths for US states.
 
-## 05318 Human-AI Interaction F2020 Final Project at Carnegie Mellon University
+## 05318 Human-AI Interaction F2020 Final Project at CMU
 ### Created by Dillan Gajarawala
 
 CoronaCast has a very simple goal: To help users gain insight into what factors influence the number of COVID-19 cases
