@@ -68,10 +68,10 @@ def predict_cases():
     else:
         state = [geo_value.lower()]
         numerical_vars = [tests_positive, admissions, full_time, visits, fb_illness, home]
-        cases, weights, explanation = cases_predictor.predict_cases(state, numerical_vars)
-        if cases < 0: cases = "Zero"
         labels = ["State", "Positive Tests", "Hospital Admissions", "Devices Away from Home", "Doctor's Visits", "Facebook Survey", "Devices at Home", "Baseline"]
-        print(labels)
+        cases, weights = cases_predictor.predict_cases(state, numerical_vars)
+        explanation = cases_predictor.get_explanation(geo_value.lower(), numerical_vars, labels[1:len(labels)-1])
+        if cases < 0: cases = "Zero"
         combined = list(zip(labels, weights))
         combined.sort(key = lambda x: x[1])
         labels, weights = [[ l for l, w in combined ], [ w for l, w in combined ]]

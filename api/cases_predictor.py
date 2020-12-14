@@ -21,23 +21,38 @@ class CasesPredictor(object):
         weights = [sum(all_weights[:50])] + all_weights[50:] + [self.model.intercept_]
         weights = [int(x) for x in weights]
         cases = self.model.predict([features])[0]
-        print("CASES")
-        print(self.model.coef_, self.model.intercept_)
-        explanation = self.get_explanation(categorical_vars[0])
-        return int(cases), weights, explanation
+        return int(cases), weights
     
-    def get_explanation(self, state):
+    def get_explanation(self, state, feature_values, feature_labels):
+        feature_weights = self.model.coef_[50:]
+        print(feature_weights)
         explanation = "All estimates start with a baseline value. The parameters you entered will increase or decrease the case count until all of them have been accounted for. "
         if pop_hash[state] > sum(pop_hash.values())/len(pop_hash):
             explanation += "The state you chose had a population higher than the average, so it contributed more to the case count. "
         else:
             explanation += "The state you chose had a population lower than the average, so it contributed less to the case count. "
-        explanation += "Positive tests have a negative association with COVID cases, so the value you entered dropped the case count from the baseline. "
-        explanation += "Hospital admissions have an extremely positive association with COVID cases, so the value you entered caused the case count to rise. "
-        explanation += "Devices away from home have an extremely small association with COVID cases, so the value you entered had no effect on the case count. "
-        explanation += "Doctor's visits have an extremely positive association with COVID cases, so the value you entered caused the case count to rise considerably. "
-        explanation += "Any reporting of COVID-like illness via the Facebook survey has been linked with a rise in cases, so the value you entered caused the case count to rise. "
-        explanation += "Devices at home have an extremely small association with COVID cases, so the value you entered had no effect on the case count. "
+        
+        for i in range(len(feature_weights)):
+            sentence = ""
+            if feature_labels[i] == "Facebook Survey":
+                sentence += "Any reporting of COVID-like illness via the Facebook survey has"
+            else:
+                sentence += feature_labels[i] + " have "
+
+            if feature_weights[i] > 0:
+                sentence += "a positive association with COVID cases, "
+            else:
+                sentence += "a negative association with COVID cases, "
+
+            if int(feature_values[i]*feature_weights[i]) == 0:
+                sentence += "but the value you entered is not large enough to change the case count. "
+            elif int(feature_values[i]*feature_weights[i]) > 0:
+                sentence += "so the value you entered caused the case count to rise. "
+            else:
+                sentence += "so the value you entered caused the case count to drop. "
+            explanation += sentence
         return explanation
+    
+
     
 
