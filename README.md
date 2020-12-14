@@ -22,3 +22,12 @@ case or death count prediction.
 ### Open-source Code used
 
 CoronaCast leverages Chart.js, but the code I used to create the graphs was written by me. 
+
+### Python Modules used
+
+- Flask
+- Pandas
+- CovidCast
+- Scikit-Learn
+- Pickle
+- Json
